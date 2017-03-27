@@ -1,3 +1,5 @@
+<% include ./partials/header %>
+
 <h1>Index page!</h1>
 
 <% blogs.forEach((blog) =>{ %>
@@ -7,3 +9,5 @@
         <span> <b>Timestamp: </b><%= blog.created %> </span>
     </div>
 <% })%>
+
+<% include ./partials/footer %>
