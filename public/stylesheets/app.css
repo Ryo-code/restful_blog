@@ -1,4 +1,7 @@
 i.icon {
-    font-size: 2em;
-    /*makes it 2 times the size of the parent container */
+    font-size: 2em;     /*makes it 2 times the size of the parent container */
+}
+
+.container.main { /* this mains for things with BOTH the container class AND main class*/
+    margin-top: 7.0em;
 }
