@@ -1,9 +1,10 @@
 'use strict';
 
 let bodyParser  = require("body-parser"),
-    mongoose    = require("mongoose"),
-    express     = require("express"),
-    app         = express();
+methodOverride  = require("method-override"),
+mongoose        = require("mongoose"),
+express         = require("express"),
+app             = express();
 
 
 // APP CONFIG
@@ -11,6 +12,7 @@ mongoose.connect("mongodb://localhost/restful_blog_app"); //restful_blog_app wil
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride("_method")); //Used to make the POST method in the edit file actually a PUT request (by overriding it)
 
 
 // MONGOOSE/MODEL CONFIG
@@ -71,7 +73,29 @@ app.get("/blogs/:id", (req, res) => {
         } else {
             res.render("show", {blog: foundBlog}); //this "blog" is whatever we found inside the SHOW route, because we looked in the DB for the ID. And if we found it (and we almost definitely will then pass foundBlog through (as "blog", like I said) to show.ejs
         }
-    })
+    });
+});
+
+//EDIT ROUTE
+app.get("/blogs/:id/edit", (req, res) => {
+    Blog.findById(req.params.id, (err, foundBlog) => {
+        if(err){
+            res.redirect("/blogs");
+        } else {
+            res.render("edit", {blog: foundBlog});
+        }
+    });
+});
+
+//UPDATE ROUTE
+app.put("/blogs/:id", (req, res) => {
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, updatedBlog) => {
+       if(err){
+           res.redirect("/blogs");
+       } else {
+           res.redirect("/blogs/" + req.params.id); //this will redirect to the corresponding SHOW page
+       }
+    });
 });
 
 
