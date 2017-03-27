@@ -14,7 +14,6 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride("_method")); //Used to make the POST method in the edit file actually a PUT request (by overriding it)
 
-
 // MONGOOSE/MODEL CONFIG
 let blogSchema = new mongoose.Schema({
     title: String,
@@ -51,7 +50,7 @@ app.get("/blogs", (req, res) => {
 
 app.get("/blogs/new", (req, res) => {
     res.render("new");
-})
+});
 
 app.post("/blogs", (req, res) => {
     //create blog post (stick into DB)
@@ -98,7 +97,15 @@ app.put("/blogs/:id", (req, res) => {
     });
 });
 
-
-app.listen(3000, function () {
-    console.log("BEEP BOOP! Running blog server!");
-})
+//DELETE ROUTE
+app.delete("/blogs/:id", (req, res) => {
+    //destroy blog
+    Blog.findByIdAndRemove(req.params.id, (err) => {
+       if(err){
+           console.log("Error! Error! WWOOOOPP")
+           res.redirect("/blogs");
+       } else {
+           res.redirect("/blogs")
+       }
+    });
+});

@@ -8,5 +8,8 @@ i.icon {
 
 img {
     width: 80%;
-    /*temporarily*/
+}
+
+#delete {
+    display: inline;
 }

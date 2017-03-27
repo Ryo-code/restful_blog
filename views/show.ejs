@@ -13,6 +13,10 @@
                 <p><%- blog.body %></p>
                 <!--If you have a dash (instead of an equal sign) before blog.body, it'll take what blog.body returns and runs it as code (not a string). This is so powerful that you'll need to "sanitize" your script tags (e.g. express sanitizer) in order to ensure cyber security-->
             </div>
+            <a class="ui orange basic button" href="/blogs/<%= blog._id %>/edit">Edit</a>
+            <form id="delete" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST">
+                <button class="ui red basic button">Delete</button>
+            </form>
         </div>
     </div>
 </div>
