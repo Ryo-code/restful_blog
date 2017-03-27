@@ -7,6 +7,9 @@
         <h2><%= blog.title %> </h2>
         <img src="<%= blog.image %>">
         <span> <b>Timestamp: </b><%= blog.created %> </span>
+        <p><%= blog.body.substring(0, 100) %></p>
+        <!-- Substring limits displaying the body (in this case, up to the 100th character)-->
+        <a href="/blogs/<%= blog._id %>">Read More</a>
     </div>
 <% })%>
 

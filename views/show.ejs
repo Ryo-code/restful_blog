@@ -1,0 +1,20 @@
+<% include ./partials/header %>
+
+<div class="ui main text container segment">
+    <div class="ui huge header"> <%= blog.title %> </div>
+    <div class="ui top attached">
+        <div class="item">
+            <img class="ui centered rounded image" src="<%= blog.image %>">
+            <div class="content">
+                <span><%= blog.created.toDateString() %></span>
+                <!-- .toDateString() makes the timestamp more human-readable, but moment.js is probably better because it's more flexible -->
+            </div>
+            <div class="description">
+                <p><%- blog.body %></p>
+                <!--If you have a dash (instead of an equal sign) before blog.body, it'll take what blog.body returns and runs it as code (not a string). This is so powerful that you'll need to "sanitize" your script tags (e.g. express sanitizer) in order to ensure cyber security-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ./partials/footer %>

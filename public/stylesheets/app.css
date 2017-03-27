@@ -5,3 +5,8 @@ i.icon {
 .container.main { /* this mains for things with BOTH the container class AND main class*/
     margin-top: 7.0em;
 }
+
+img {
+    width: 80%;
+    /*temporarily*/
+}
