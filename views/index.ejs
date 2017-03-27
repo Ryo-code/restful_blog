@@ -1,0 +1,9 @@
+<h1>Index page!</h1>
+
+<% blogs.forEach((blog) =>{ %>
+    <div>
+        <h2><%= blog.title %> </h2>
+        <img src="<%= blog.image %>">
+        <span> <b>Timestamp: </b><%= blog.created %> </span>
+    </div>
+<% })%>
