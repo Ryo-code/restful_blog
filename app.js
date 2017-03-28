@@ -1,6 +1,7 @@
 'use strict';
 
 let bodyParser  = require("body-parser"),
+expressSanitizer = require("express-sanitizer"),
 methodOverride  = require("method-override"),
 mongoose        = require("mongoose"),
 express         = require("express"),
@@ -12,6 +13,7 @@ mongoose.connect("mongodb://localhost/restful_blog_app"); //restful_blog_app wil
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(expressSanitizer()); //expressSanitizer has to go after bodyParser
 app.use(methodOverride("_method")); //Used to make the POST method in the edit file actually a PUT request (by overriding it)
 
 // MONGOOSE/MODEL CONFIG
@@ -36,6 +38,7 @@ app.get("/", (req, res) => {
     res.redirect("/blogs")
 })
 
+//INDEX
 app.get("/blogs", (req, res) => {
     Blog.find({}, (err, blogs) => {
         //the empty object means "use the find() method on everything"
@@ -48,12 +51,16 @@ app.get("/blogs", (req, res) => {
     });
 });
 
+
+//NEW ROUTE
 app.get("/blogs/new", (req, res) => {
     res.render("new");
 });
 
+//CREATE ROUTE
 app.post("/blogs", (req, res) => {
     //create blog post (stick into DB)
+    req.body.blog.body = req.sanitize(req.body.blog.body) //this makes it so that if someone inputs JS into the blog body, it won't run (but HTML will, for stuff like bolding a word)
     Blog.create(req.body.blog, (err, newBlog) => {
         if(err){
             res.render("new");
@@ -88,6 +95,7 @@ app.get("/blogs/:id/edit", (req, res) => {
 
 //UPDATE ROUTE
 app.put("/blogs/:id", (req, res) => {
+    req.body.blog.body = req.sanitize(req.body.blog.body)
     Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, updatedBlog) => {
        if(err){
            res.redirect("/blogs");
@@ -108,4 +116,8 @@ app.delete("/blogs/:id", (req, res) => {
            res.redirect("/blogs")
        }
     });
+});
+
+app.listen(3000, () => {
+    console.log("BEEP BOOP! Running blog server!");
 });

@@ -1,16 +1,38 @@
 <% include ./partials/header %>
 
-<h1>Index page!</h1>
+<div class="ui main text container">
+    <div class="ui huge header">RESTful Blog App</div>
+    <div class="ui top  attached segment">
+        <div class="ui divided items">
+            <% blogs.forEach((blog) => { %>
+                <div class="item">
+                    <div class="image">
+                        <img src="<%= blog.image %>" >
+                    </div>
+                    
+                    <div class="content">
+                         <a class="header" href="/blogs/<%= blog._id %>"><%=blog.title%></a>
+                         <div class="meta">
+                             <span><%= blog.created.toDateString() %></span>
+                         </div>
+                         <div class="description">
+                             <p><%- blog.body.substring(0, 100) %>...</p>
+                             <!-- The line above has a dash because now it's safe to run HTML without worrying about JS, because of the sanitizer -->
+                             <!-- Substring limits displaying the body (in this case, up to the 100th character)-->
 
-<% blogs.forEach((blog) =>{ %>
-    <div>
-        <h2><%= blog.title %> </h2>
-        <img src="<%= blog.image %>">
-        <span> <b>Timestamp: </b><%= blog.created %> </span>
-        <p><%= blog.body.substring(0, 100) %></p>
-        <!-- Substring limits displaying the body (in this case, up to the 100th character)-->
-        <a href="/blogs/<%= blog._id %>">Read More</a>
+                         </div>
+                         <div class="extra">
+                             <a class="ui floated basic violet button" href="/blogs/<%= blog._id %>">
+                                 Read More
+                                 <i class="right chevron icon big"></i>
+                             </a>
+                         </div>
+                    </div>
+
+                </div>
+            <% }) %>
+        </div>
     </div>
-<% })%>
+</div>
 
 <% include ./partials/footer %>
